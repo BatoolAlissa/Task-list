@@ -18,6 +18,8 @@ function loadEventListeners() {
     taskList.addEventListener('click',removeTask)
     //remove all the tasks
     clearBtn.addEventListener('click',clearTasks)
+    //filter through the tasks
+    filter.addEventListener('keyup',filterTasks)
 }
 
 //add Task
@@ -61,7 +63,26 @@ function removeTask(e){
 // }
 
 function clearTasks() {
-    while(taskList.firstChild){
-        taskList.removeChild(taskList.firstChild)
+    if(confirm("Are you sure you wanna clear all tasks ?")){
+        while(taskList.firstChild){
+            taskList.removeChild(taskList.firstChild)
+        }
     }
+}
+
+
+function filterTasks(e){
+    const text = e.target.value.toLowerCase();
+
+    //querySelectorAll retrurn a node list if i used gitElementByClass that will return an html collection then we have to confit it to an array to use forEach
+    document.querySelectorAll('.collection-item').forEach(function(task){
+        const item = task.firstChild.textContent;
+        if (item.toLowerCase().indexOf(text) != -1){
+            // show item
+            task.style.display = 'block';
+        } else {
+            task.style.display = 'none';
+        }
+        console.log(item, text)
+    });
 }
